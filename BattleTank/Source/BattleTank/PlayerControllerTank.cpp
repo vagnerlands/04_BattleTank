@@ -45,18 +45,17 @@ void APlayerControllerTank::AimTowardsCrosshair()
 		return;
 	}
 
-	FVector HitLocation;
+	FVector HitLocation = FVector();
 
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitLocation.ToString());
+		GetControlledTank()->AimAt(HitLocation);
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: nothing in range"));
 	}
 	
-	// Get World location if linetrace through crosshair
 	// If it hits the landscape
 	    // Tell controlled tank to aim at this point
 }
@@ -67,22 +66,45 @@ APlayerControllerTank::GetSightRayHitLocation(FVector & outHitLocation) const
 	bool retVal = false;
 	ATank* tankRef = GetControlledTank();
 
-	// Find crosshair position in pixel coordinates
+	// visible window sizes (x and y)
 	int32 ViewportSizeX, ViewportSizeY;
+	// get the current sizes of the window
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	// builds a 2D for the current screen location
+	// X is the middle of the screen
+	// Y is 1/3 from top to bottom of the screen
+	FVector2D ScreenLocation = FVector2D(ViewportSizeX * crosshairRelativeX, ViewportSizeY * crosshairRelativeY);
 
-	FVector2D ScreenLocation = FVector2D(ViewportSizeX * 0.5f, ViewportSizeY * 0.33333f);
+	return GetLookVectorHitLocation(ScreenLocation, outHitLocation);
+}
+
+bool 
+APlayerControllerTank::GetLookVectorHitLocation(const FVector2D ScreenLocation, FVector& outHitLocation) const
+{
+	bool retVal = false;
 
 	// "De-project" the screen position of the crosshair to a world direction
 	FVector LookDirection, LookStartLocation;
-
-
-	DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, LookStartLocation, LookDirection);
-	FHitResult HitResult;
-	retVal = GetWorld()->LineTraceSingleByChannel(HitResult, LookStartLocation, LookStartLocation + LookDirection * 5000.f, ECollisionChannel::ECC_Visibility);
-	if (retVal)
+	// takes a 2D coordinate and projects it into the 3D coordinate
+	// Output LookStartLocation / LookDirection vectors
+	if (DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, LookStartLocation, LookDirection))
 	{
-		outHitLocation = HitResult.Location;
+		// prepares the Hit result structure
+		FHitResult HitResult;
+
+		// checks 
+		retVal = GetWorld()->LineTraceSingleByChannel(
+			HitResult,
+			LookStartLocation,
+			LookStartLocation + LookDirection * TankFireReach,
+			ECollisionChannel::ECC_Visibility);
+
+		// if valid - raycast found a target (perhaps ground, mountain, whatever...)
+		if (retVal)
+		{
+			outHitLocation = HitResult.Location;
+		}
 	}
 	return retVal;
 }
+

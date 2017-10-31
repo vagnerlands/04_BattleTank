@@ -13,7 +13,7 @@ void ATankAIController::BeginPlay()
 
 	if (controllerAI)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank %s possessed by AI"), *controllerAI->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Tank %s possessed by AI"), *controllerAI->GetName());
 	}
 	else
 	{
@@ -24,11 +24,21 @@ void ATankAIController::BeginPlay()
 
 	if (playerControllerRef)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player tank found %s"), *playerControllerRef->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("Player tank found %s"), *playerControllerRef->GetName());
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Unable to find player tank"));
+	}
+}
+
+void
+ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetAIController() && GetPlayerTank())
+	{
+		GetAIController()->AimAt(GetPlayerTank()->GetActorLocation());
 	}
 }
 

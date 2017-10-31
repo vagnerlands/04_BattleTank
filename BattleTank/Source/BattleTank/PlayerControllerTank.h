@@ -21,12 +21,24 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void AimTowardsCrosshair();
+
 	ATank* GetControlledTank() const;
 
 private:
-	void AimTowardsCrosshair();
 
 	bool GetSightRayHitLocation(FVector& outHitLocation) const;
-	
+
+	bool GetLookVectorHitLocation(const FVector2D ScreenLocation, FVector& outHitLocation) const;
+
+	UPROPERTY(EditAnywhere)
+	float TankFireReach = 10000.f;
+
+	// X the crosshair relative point in the screen
+	UPROPERTY(EditAnywhere)
+	float crosshairRelativeX = 0.5f;
+	// Y the crosshair relative point in the screen
+	UPROPERTY(EditAnywhere)
+	float crosshairRelativeY = 1.0f / 3.0f;	
 	
 };
