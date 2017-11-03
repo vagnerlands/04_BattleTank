@@ -5,6 +5,7 @@
 // for the tank aiming component initialization
 class UTankAimingComponent;
 class UTankBarrel;
+class UTankTurret;
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -34,7 +35,7 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTankBarrelReference(UTankBarrel* pTankBarrel);
+	void SetTankComponentsReference(UTankBarrel* tankBarrel, UTankTurret* tankTurret);
 
 	// launch speed for the tank projectile - initial value may be changed in the BP
 	UPROPERTY(EditAnywhere, Category = Firing)

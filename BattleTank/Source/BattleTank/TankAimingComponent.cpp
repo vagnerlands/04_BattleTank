@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Runtime/Engine/Classes/Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
@@ -40,6 +41,12 @@ UTankAimingComponent::SetBarrelReference(UTankBarrel* pTankBarrelComponent)
 	TankBarrelComponent = pTankBarrelComponent;
 }
 
+void
+UTankAimingComponent::SetTurretReference(UTankTurret* pTankTurretComponent)
+{
+	TankTurretComponent = pTankTurretComponent;
+}
+
 void 
 UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
@@ -64,8 +71,7 @@ UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 			MoveBarrelTowards(AimDirection);
 
 			//TankBarrelComponent->GetComponentLocation().ToString
-			UE_LOG(LogTemp, Warning, TEXT("Aim at %s"),
-				*AimDirection.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Aim at %s"), *AimDirection.ToString());
 			//UE_LOG(LogTemp, Warning, TEXT("Tank %s hit %s from %s at %s"),
 				//*GetOwner()->GetName(),
 				//*HitLocation.ToString(),
@@ -89,6 +95,12 @@ UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
 	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Pitch: %f"), DeltaRotator.Pitch);
 	TankBarrelComponent->Elevate(DeltaRotator.Pitch);
+	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Yaw: %f"), DeltaRotator.Yaw);
+	if (FMath::Abs<float>(DeltaRotator.Yaw) > 180.F)
+	{
+		DeltaRotator.Yaw *= -1.F;
+	}
+	TankTurretComponent->TurnTurret(DeltaRotator.Yaw);
 	// move the barrel towards to aim direction
 	// the movement shall be based on elevation speed and frame rate
 }

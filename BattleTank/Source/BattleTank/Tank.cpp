@@ -28,14 +28,17 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 
 void 
-ATank::SetTankBarrelReference(UTankBarrel* pTankBarrel)
+ATank::SetTankComponentsReference(UTankBarrel* tankBarrel, UTankTurret* tankTurret)
 {
-	TankAimingComponent->SetBarrelReference(pTankBarrel);
+	UE_LOG(LogTemp, Warning, TEXT("Tank::Barrel and Turret References set"));
+	TankAimingComponent->SetBarrelReference(tankBarrel);
+	TankAimingComponent->SetTurretReference(tankTurret);
 }
 
 void
 ATank::AimAt(FVector HitLocation)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Tank::AimAt %s"), *HitLocation.ToString());
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 

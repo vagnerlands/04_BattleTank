@@ -3,6 +3,7 @@
 #pragma once
 
 class UTankBarrel;
+class UTankTurret;
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -20,6 +21,8 @@ public:
 
 	void SetBarrelReference(UTankBarrel* pTankBarrelComponent);
 
+	void SetTurretReference(UTankTurret* pTankTurretComponent);
+
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 protected:
@@ -32,6 +35,7 @@ public:
 
 private:
 	UTankBarrel* TankBarrelComponent = nullptr;
+	UTankTurret* TankTurretComponent = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	float BarrelMovementSpeed = 10.f;
