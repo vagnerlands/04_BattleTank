@@ -33,12 +33,14 @@ public:
 
 	// prepare to aim towards the target
 	void AimAt(FVector HitLocation);
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTankComponentsReference(UTankBarrel* tankBarrel, UTankTurret* tankTurret);
 
 	// launch speed for the tank projectile - initial value may be changed in the BP
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000.f;
+	float LaunchSpeed = 4000.f;
 	
 };

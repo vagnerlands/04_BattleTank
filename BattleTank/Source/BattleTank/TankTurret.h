@@ -23,7 +23,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	float MaxTurnAngle = 180.F;
 	UPROPERTY(EditAnywhere)
-	float TurnDegreesPerSecond = 50.F;
+	float TurnDegreesPerSecond = 20.F;
 	
 	
 };

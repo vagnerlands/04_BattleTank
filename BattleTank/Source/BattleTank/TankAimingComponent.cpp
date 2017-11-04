@@ -11,7 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
@@ -93,15 +93,13 @@ UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelRotation = TankBarrelComponent->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotation;
-	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Pitch: %f"), DeltaRotator.Pitch);
+	//UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Pitch: %f"), DeltaRotator.Pitch);
 	TankBarrelComponent->Elevate(DeltaRotator.Pitch);
-	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Yaw: %f"), DeltaRotator.Yaw);
+	//UE_LOG(LogTemp, Warning, TEXT("DeltaRotator.Yaw: %f"), DeltaRotator.Yaw);
 	if (FMath::Abs<float>(DeltaRotator.Yaw) > 180.F)
 	{
 		DeltaRotator.Yaw *= -1.F;
 	}
 	TankTurretComponent->TurnTurret(DeltaRotator.Yaw);
-	// move the barrel towards to aim direction
-	// the movement shall be based on elevation speed and frame rate
 }
 
