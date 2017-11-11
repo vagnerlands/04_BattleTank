@@ -6,6 +6,7 @@
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
+class UTankMovementComponent;
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
@@ -25,6 +26,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 
@@ -42,5 +45,16 @@ public:
 	// launch speed for the tank projectile - initial value may be changed in the BP
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<class AProjectile> ProjectileBlueprint;
+
+private:
+	// local reference to tank barrel 
+	UTankBarrel* BarrelReference = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	double ReloadTimeInSeconds = 5.0;
+
+	double LastFireTime = 0.0;
 	
 };

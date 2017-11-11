@@ -20,10 +20,9 @@ private:
 public:
 	virtual void BeginPlay() override;
 
-public:
-	ATank* GetAIController() const;
-
-	ATank* GetPlayerTank() const;
+protected:
+	ATank* ControlledTankReference;
+	ATank* MainPlayerReference;
 	
 	
 };

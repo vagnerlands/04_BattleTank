@@ -35,10 +35,10 @@ private:
 	float TankFireReach = 10000.f;
 
 	// X the crosshair relative point in the screen
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Setup)
 	float crosshairRelativeX = 0.5f;
 	// Y the crosshair relative point in the screen
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = Setup)
 	float crosshairRelativeY = 1.0f / 3.0f;	
 	
 };
