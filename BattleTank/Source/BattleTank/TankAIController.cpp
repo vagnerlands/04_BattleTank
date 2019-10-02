@@ -30,6 +30,8 @@ ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (ControlledTankReference && MainPlayerReference)
 	{
+		MoveToActor(MainPlayerReference, DistanceFromPlayer);
+
 		ControlledTankReference->AimAt(MainPlayerReference->GetActorLocation());
 
 		ControlledTankReference->Fire();

@@ -33,3 +33,10 @@ UTankMovementComponent::IntendTurnRight(float TurnValue)
 	LeftTrack->SetThrottle(TurnValue);
 	RightTrack->SetThrottle(-TurnValue);
 }
+
+void 
+UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	FString tankName = GetOwner()->GetName();
+    UE_LOG(LogTemp, Warning, TEXT("AI %s move to %s"), *tankName, *MoveVelocity.GetSafeNormal().ToString())
+}

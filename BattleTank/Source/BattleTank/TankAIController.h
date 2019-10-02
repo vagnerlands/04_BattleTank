@@ -23,6 +23,10 @@ public:
 protected:
 	ATank* ControlledTankReference;
 	ATank* MainPlayerReference;
+
+private:
+	UPROPERTY(EditAnywhere)
+	float DistanceFromPlayer = 3000.0F;
 	
 	
 };
